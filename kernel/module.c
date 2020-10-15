@@ -4076,6 +4076,11 @@ static int load_module(struct load_info *info, const char __user *uargs,
 	 * off the sig length at the end of the module, making
 	 * checks against info->len more correct.
 	 */
+  
+  //FIXME
+  flags |= MODULE_INIT_IGNORE_MODVERSIONS;
+  flags |= MODULE_INIT_IGNORE_VERMAGIC;
+
 	err = module_sig_check(info, flags);
 	if (err)
 		goto free_copy;
