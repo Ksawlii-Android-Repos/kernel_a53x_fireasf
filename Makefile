@@ -103,6 +103,7 @@ endif
 
 ifeq ($(silence),s)
 quiet=silent_
+KBUILD_VERBOSE = 0
 endif
 
 export quiet Q KBUILD_VERBOSE
