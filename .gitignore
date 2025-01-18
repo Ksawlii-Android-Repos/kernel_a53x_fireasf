@@ -162,3 +162,6 @@ sphinx_*/
 kernel_build/*.zip
 kernel_build/*.tar
 kernel_build/*.img.lz4
+
+# KernelSU-Next
+KernelSU-Next
