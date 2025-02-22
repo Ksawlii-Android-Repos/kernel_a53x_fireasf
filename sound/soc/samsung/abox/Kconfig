@@ -123,6 +123,6 @@ config SND_SOC_SAMSUNG_ABOX_CHANGE_RMEM_SIZE
 
 config SND_SOC_SAMSUNG_ABOX_LOG_SINGLE
 	bool "define the number of abox logging files in proc"
-	help
+	default n
+  help
 	  Say Y or M if you don't want to use log-01 to save memory(use only log-00).
- 	default n
