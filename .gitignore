@@ -171,3 +171,7 @@ kernel_build/FireAsf/*
 
 # KernelSU-Next
 KernelSU-Next
+
+
+# AnyKernel3
+kernel_build/fire_zip/
