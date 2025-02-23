@@ -7168,6 +7168,14 @@ CONFIG_TOUCHSCREEN_DUMP_MODE=m
 # USB common vbus notifier configs
 #
 CONFIG_VBUS_NOTIFIER=m
+
+#
+# samsung Performace manager
+#
+CONFIG_KPERFMON=y
+CONFIG_KPERFMON_BUILD=m
+# end of samsung Performace manager
+
 CONFIG_SENSORS_FINGERPRINT=m
 CONFIG_FINGERPRINT_SECURE=y
 # CONFIG_SENSORS_FPRINT_SECURE is not set
