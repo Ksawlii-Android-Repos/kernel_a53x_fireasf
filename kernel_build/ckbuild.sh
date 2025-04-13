@@ -25,6 +25,7 @@ AK3_URL="https://github.com/Ksawlii-Android-Repos/AnyKernel3-a53x"
 AK3_TEST=0
 SECONDS=0
 DATE="$(date '+%Y%m%d-%H%M')"
+DIR_DATE="$(date +%e-%m-%Y | tr -d ' ')"
 BUILD_HOST="$USER@$(hostname)"
 
 # Workspace
@@ -216,8 +217,8 @@ if [[ "$DO_OC" == "1" ]]; then
     FIRE_TYPE_SHORT="$FIRE_TYPE_SHORT+U"
 fi
 
-ZIP_PATH="$KDIR/kernel_build/FireAsf_$FIRE_VER-$FIRE_TYPE-$CODENAME-$DATE.zip"
-TAR_PATH="$KDIR/kernel_build/FireAsf_$FIRE_VER-$FIRE_TYPE-$CODENAME-$DATE.tar"
+ZIP_PATH="$KDIR/kernel_build/FireAsf/$DIR_DATE/FireAsf_$FIRE_VER-$FIRE_TYPE-$CODENAME-$DATE.zip"
+TAR_PATH="$KDIR/kernel_build/FireAsf/$DIR_DATE/FireAsf_$FIRE_VER-$FIRE_TYPE-$CODENAME-$DATE.tar"
 
 echo -e "\nINFO: Build info:
 - Device: $DEVICE ($CODENAME)
@@ -564,6 +565,9 @@ packing() {
                 echo -e "\nERROR: Failed to clone AnyKernel3!"
                 exit 1
             fi
+        fi
+        if [ ! -d "kernel_build/FireAsf/$FIRE_DAY_MONTH.$FIRE_MONTH.$FIRE_YEAR" ]; then
+            mkdir -p "kernel_build/FireAsf/$FIRE_DAY_MONTH.$FIRE_MONTH.$FIRE_YEAR" 
         fi
         echo -e "\nINFO: Building zip..."
         cd "$AK3_DIR"
