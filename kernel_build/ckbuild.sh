@@ -466,17 +466,6 @@ prep_toolchain() {
 get_toolchain "$CLANG_TYPE"
 prep_toolchain "$CLANG_TYPE"
 
-## Telegram info variables
-CAPTION_BUILD="Build info:
-*Device*: \`${DEVICE} [${CODENAME}]\`
-*Kernel Version*: \`${LINUX_VER}\`
-*Compiler*: \`${KBUILD_COMPILER_STRING}\`
-*Build host*: \`${BUILD_HOST}\`
-*Branch*: \`$(git rev-parse --abbrev-ref HEAD)\`
-*Commit*: [($(git rev-parse --short HEAD))
-*Build type*: \`$BUILD_TYPE\`
-"
-
 # Build the caption properly and escape special characters
 CAPTION_BUILD="Build info:
 *Device*: \`${DEVICE} [${CODENAME}]\`
