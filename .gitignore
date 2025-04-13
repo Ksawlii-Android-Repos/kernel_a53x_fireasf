@@ -174,3 +174,9 @@ KernelSU-Next
 
 # AnyKernel3
 kernel_build/fire_zip/
+
+# Deps
+kernel_build/.deps
+
+# Logs
+log.*
