@@ -225,7 +225,7 @@ build() {
 
     rm -rf "$MOD_OUTDIR" 2>/dev/null
 
-    make -j"$(nproc --all)" O=out CC="clang" CROSS_COMPILE="$CCARM64_PREFIX" "$DEFCONFIG" $([[ "$arg" == *q* ]] && echo '> /dev/null 2>&1' || echo '2>&1 | tee log.txt')
+    make -j"$JOBS" O=out CC="clang" CROSS_COMPILE="$CCARM64_PREFIX" "$DEFCONFIG" $([[ "$arg" == *q* ]] && echo '> /dev/null 2>&1' || echo '2>&1 | tee log.txt')
 
     VERSION_STR="\"-FireAsf-$FIRE_VER-$FIRE_TYPE_SHORT\""
 
@@ -286,13 +286,13 @@ build() {
 
     echo -e "\nINFO: Starting compilation...\n"
 
-    make -j"$(nproc --all)" O=out CC="clang" CROSS_COMPILE="$CCARM64_PREFIX" dtbs $([[ "$arg" == *q* ]] && echo '> /dev/null 2>&1' || echo '2>&1 | tee log.txt')
+    make -j"$JOBS" O=out CC="clang" CROSS_COMPILE="$CCARM64_PREFIX" dtbs $([[ "$arg" == *q* ]] && echo '> /dev/null 2>&1' || echo '2>&1 | tee log.txt')
     if [[ "$USE_CCACHE" == "1" ]]; then
-        make -j"$(nproc --all)" O=out CC="ccache clang" CROSS_COMPILE="$CCARM64_PREFIX" $([[ "$arg" == *q* ]] && echo '> /dev/null 2>&1' || echo '2>&1 | tee log.txt')
+        make -j"$JOBS" O=out CC="ccache clang" CROSS_COMPILE="$CCARM64_PREFIX" $([[ "$arg" == *q* ]] && echo '> /dev/null 2>&1' || echo '2>&1 | tee log.txt')
     else
-        make -j"$(nproc --all)" O=out CC="clang" CROSS_COMPILE="$CCARM64_PREFIX" $([[ "$arg" == *q* ]] && echo '> /dev/null 2>&1' || echo '2>&1 | tee log.txt')
+        make -j"$JOBS" O=out CC="clang" CROSS_COMPILE="$CCARM64_PREFIX" $([[ "$arg" == *q* ]] && echo '> /dev/null 2>&1' || echo '2>&1 | tee log.txt')
     fi
-    make -j"$(nproc --all)" O=out CC="clang" CROSS_COMPILE="$CCARM64_PREFIX" INSTALL_MOD_STRIP="--strip-debug --keep-section=.ARM.attributes" INSTALL_MOD_PATH="$MOD_OUTDIR" modules_install $([[ "$arg" == *q* ]] && echo '> /dev/null 2>&1' || echo '2>&1 | tee log.txt')
+    make -j"$JOBS" O=out CC="clang" CROSS_COMPILE="$CCARM64_PREFIX" INSTALL_MOD_STRIP="--strip-debug --keep-section=.ARM.attributes" INSTALL_MOD_PATH="$MOD_OUTDIR" modules_install $([[ "$arg" == *q* ]] && echo '> /dev/null 2>&1' || echo '2>&1 | tee log.txt')
 }
 
 clean() {
