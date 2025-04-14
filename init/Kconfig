@@ -1754,7 +1754,8 @@ config KALLSYMS
 config KALLSYMS_ALL
 	bool "Include all symbols in kallsyms"
 	depends on DEBUG_KERNEL && KALLSYMS
-	help
+	default n
+  help
 	  Normally kallsyms only contains the symbols of functions for nicer
 	  OOPS messages and backtraces (i.e., symbols from the text and inittext
 	  sections). This is sufficient for most cases. And only in very rare
