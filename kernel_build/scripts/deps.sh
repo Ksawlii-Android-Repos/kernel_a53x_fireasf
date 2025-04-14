@@ -29,5 +29,5 @@ fi
 if [ ! -d "KernelSU-Next" ]; then
     rm -rf "KernelSU"*
     echo "INFO: Cloning KernelSU Next"
-    curl -LSs "https://raw.githubusercontent.com/rifsxd/KernelSU-Next/next/kernel/setup.sh" | bash next-susfs
+    curl -LSs "https://raw.githubusercontent.com/rifsxd/KernelSU-Next/next-susfs/kernel/setup.sh" | bash -s next-susfs
 fi
