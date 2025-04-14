@@ -179,8 +179,8 @@ TAR_PATH="$KDIR/kernel_build/FireAsf/$DIR_DATE/FireAsf_$FIRE_VER-$FIRE_TYPE-$COD
 
 echo -e "\nINFO: Build info:
 - Device: $DEVICE ($CODENAME)
-- Addons: $FK_TYPE
-- FireAsf version: $FK_VER
+- Addons: $FIRE_TYPE
+- FireAsf version: $FIRE_VER
 - Linux version: $LINUX_VER
 - Defconfig: $DEFCONFIG
 - Build date: $DATE
