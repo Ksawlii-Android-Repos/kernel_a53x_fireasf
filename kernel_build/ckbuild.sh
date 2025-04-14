@@ -164,7 +164,6 @@ LINUX_VER=$(make kernelversion 2>/dev/null)
 if [[ "$DO_KSU" == "1" ]]; then
     FIRE_TYPE="KSUNext"
     FIRE_TYPE_SHORT="KN"
-    DEFCONFIG="a53x-ksu_defconfig"
 else
     FIRE_TYPE="Vanilla"
     FIRE_TYPE_SHORT="V"
@@ -233,12 +232,23 @@ build() {
     rm -f "$OUT_KERNEL"
 
     if [[ "$DO_REGEN" = "1" ]]; then
+        if [[ "$DO_KSU" == "1" ]]; then
+            echo "ERROR: Regenerate config(s) without DO_KSU=1"
+            exit 1
+        fi
         cp -f out/.config arch/arm64/configs/$DEFCONFIG
         echo "INFO: Configuration regenerated. Check the changes!"
         exit 0
     fi
 
     scripts/config --file "$KDIR/out/.config" --set-val LOCALVERSION "$VERSION_STR"
+
+    if [[ "$DO_KSU" == "1" ]]; then
+        scripts/config --file "$KDIR/out/.config" --enable CONFIG_KSU
+        scripts/config --file "$KDIR/out/.config" --enable KSU_WITH_KPROBES
+        scripts/config --file "$KDIR/out/.config" --disable KSU_DEBUG
+        scripts/config --file "$KDIR/out/.config" --disable KSU_ALLOWLIST_WORKAROUND
+    fi
 
     if [[ "$DO_OC" == "1" ]]; then
         scripts/config --file "$KDIR/out/.config" --enable CONFIG_SOC_S5E8825_OVERCLOCK

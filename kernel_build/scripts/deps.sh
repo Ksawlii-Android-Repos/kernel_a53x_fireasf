@@ -24,3 +24,10 @@ if [ ! -f "$KDIR/kernel_build/.deps" ]; then
     fi
     touch "$KDIR/kernel_build/.deps"
 fi
+
+# KernelSU Next (it needs to be cloned even if DO-KSU=1 is not set)
+if [ ! -d "KernelSU-Next" ]; then
+    rm -rf "KernelSU"*
+    echo "INFO: Cloning KernelSU Next"
+    curl -LSs "https://raw.githubusercontent.com/rifsxd/KernelSU-Next/next/kernel/setup.sh" | bash -     
+fi
