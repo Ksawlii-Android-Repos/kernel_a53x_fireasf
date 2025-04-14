@@ -466,29 +466,28 @@ prep_toolchain() {
 get_toolchain "$CLANG_TYPE"
 prep_toolchain "$CLANG_TYPE"
 
-## Telegram info variables
+# Build the caption properly and escape special characters
 CAPTION_BUILD="Build info:
 *Device*: \`${DEVICE} [${CODENAME}]\`
 *Kernel Version*: \`${LINUX_VER}\`
 *Compiler*: \`${KBUILD_COMPILER_STRING}\`
-*Linker*: \`$("${LINKER}" -v | head -n1 | sed 's/(compatible with [^)]*)//' |
-            head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')\`
 *Build host*: \`${BUILD_HOST}\`
 *Branch*: \`$(git rev-parse --abbrev-ref HEAD)\`
-*Commit*: [($(git rev-parse HEAD | cut -c -7))]($(echo $KERNEL_URL)/commit/$(git rev-parse HEAD))
-*Build type*: \`$BUILD_TYPE\`
-*Clean build*: \`$( [ "$DO_CLEAN" -eq 1 ] && echo Yes || echo No )\`
+*Commit*: \`$(git rev-parse --short HEAD)\`
+*Build type*: \`${BUILD_TYPE}\`
 "
 
-# Send file(s) via Telegram's BOT api.
+# Final caption with MD5
+CAPTION_FINAL="${CAPTION_BUILD}"
+
 tgs() {
     local file="$1"
-    local md5=$(md5sum "$file" | cut -d' ' -f1)
-    curl -fsSL -X POST -F document=@"$file" "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendDocument" \
-        -F "chat_id=${TELEGRAM_CHAT_ID}" \
-        -F "parse_mode=Markdown" \
-        -F "disable_web_page_preview=true" \
-        -F "caption=${CAPTION_BUILD}*MD5*: \`$md5\`" &>/dev/null
+    curl -fsSL -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendDocument" \
+        -F chat_id="${TELEGRAM_CHAT_ID}" \
+        -F document=@"$file" \
+        -F parse_mode="Markdown" \
+        -F disable_web_page_preview="true" \
+        -F caption="${CAPTION_FINAL}" &>/dev/null
 }
 
 prep_build() {
@@ -566,8 +565,8 @@ packing() {
                 exit 1
             fi
         fi
-        if [ ! -d "kernel_build/FireAsf/$FIRE_DAY_MONTH.$FIRE_MONTH.$FIRE_YEAR" ]; then
-            mkdir -p "kernel_build/FireAsf/$FIRE_DAY_MONTH.$FIRE_MONTH.$FIRE_YEAR" 
+        if [ ! -d "kernel_build/FireAsf/$DIR_DATE" ]; then
+            mkdir -p "kernel_build/FireAsf/$DIR_DATE" 
         fi
         echo -e "\nINFO: Building zip..."
         cd "$AK3_DIR"
@@ -689,7 +688,7 @@ upload() {
 
     if [[ "$DO_TG" == "1" ]]; then
         echo -e "\nINFO: Uploading to Telegram\n"
-        tgs "$ZIP_PATH"
+        tgs "$TAR_PATH"
     fi
 
 }
