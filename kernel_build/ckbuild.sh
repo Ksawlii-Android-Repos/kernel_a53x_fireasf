@@ -265,6 +265,7 @@ build() {
         scripts/config --file "$KDIR/out/.config" --enable CONFIG_KSU_SUSFS_SPOOF_CMDLINE_OR_BOOTCONFIG
         scripts/config --file "$KDIR/out/.config" --enable CONFIG_KSU_SUSFS_OPEN_REDIRECT
         scripts/config --file "$KDIR/out/.config" --enable CONFIG_KSU_SUSFS_SUS_SU
+        scripts/config --file "$KDIR/out/.config" --disable CONFIG_KSU_SUSFS_SUS_OVERLAYFS
     fi
 
     if [[ "$DO_OC" == "1" ]]; then
