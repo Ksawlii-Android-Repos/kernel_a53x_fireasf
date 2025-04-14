@@ -668,7 +668,7 @@ static const struct attribute_group muic_sysfs_group = {
 
 int muic_sysfs_init(struct muic_platform_data *pdata)
 {
-	int ret;
+	int ret = 0;
 
 	mutex_init(&pdata->sysfs_mutex);
 
@@ -679,7 +679,9 @@ int muic_sysfs_init(struct muic_platform_data *pdata)
 	if (ret) {
 		pr_err("failed to create sysfs\n");
 		return ret;
-	}
+	} else
+		kobject_uevent(&pdata->switch_device->kobj, KOBJ_CHANGE);
+
 	dev_set_drvdata(pdata->switch_device, pdata);
 
 	return ret;
