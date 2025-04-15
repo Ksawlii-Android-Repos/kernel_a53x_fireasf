@@ -560,10 +560,10 @@ static FORCE_INLINE int LZ4_decompress_generic(
 			op = cpy;
 		}
 
-			/* get offset */
-			offset = LZ4_readLE16(ip);
-			ip += 2;
-			match = op - offset;
+		/* get offset */
+		offset = LZ4_readLE16(ip);
+		ip += 2;
+		match = op - offset;
 
 		/* get matchlength */
 		length = token & ML_MASK;
