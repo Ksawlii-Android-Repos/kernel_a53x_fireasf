@@ -105,11 +105,12 @@ DO_REGEN=0
 DO_OC=0
 DO_FLTO=0
 QUIET=0
+DO_PERMISSIVE=0
 DEFCONFIG=$DEFAULT_DEFCONFIG
 
 for arg in "$@"; do
     if [[ "$arg" == *m* ]]; then
-        echo "INFO: menuconfig argument passed, kernel configuration menu will be shown"
+        echo "INFO: Menuconfig argument passed, kernel configuration menu will be shown"
         DO_MENUCONFIG=1
     fi
     if [[ "$arg" == *k* ]]; then
@@ -117,7 +118,7 @@ for arg in "$@"; do
         DO_KSU=1
     fi
     if [[ "$arg" == *c* ]]; then
-        echo "INFO: clean argument passed, output directory will be wiped"
+        echo "INFO: Clean argument passed, output directory will be wiped"
         DO_CLEAN=1
     fi
     if [[ "$arg" == *R* ]]; then
@@ -129,11 +130,11 @@ for arg in "$@"; do
         DO_TG=1
     fi
     if [[ "$arg" == *b* ]]; then
-        echo "INFO: bashupload.com argument passed, build will be uploaded to bashupload.com"
+        echo "INFO: Bashupload.com argument passed, build will be uploaded to bashupload.com"
         DO_BASHUP=1
     fi
     if [[ "$arg" == *r* ]]; then
-        echo "INFO: config regeneration mode"
+        echo "INFO: Config regeneration mode"
         DO_REGEN=1
     fi
     if [[ "$arg" == *u* ]]; then
@@ -149,6 +150,11 @@ for arg in "$@"; do
         echo "INFO: Quiet argument passed"
         echo "WARNING: Only errors and warnings will be shown"
         DO_FLTO=1
+    fi
+    if [[ "$arg" == *p* ]]; then
+        echo "INFO: Permissive argument passed"
+        echo "WARNING: Selinux will be permissive"
+        DO_PERMISSIVE=1
     fi
 done
 
@@ -172,6 +178,11 @@ fi
 if [[ "$DO_OC" == "1" ]]; then
     FIRE_TYPE="$FIRE_TYPE+Unlocked"
     FIRE_TYPE_SHORT="$FIRE_TYPE_SHORT+U"
+fi
+
+if [ "$DO_PERMISSIVE" = "1" ]; then
+    FIRE_TYPE="$FIRE_TYPE+Permissive"
+    FIRE_TYPE_SHORT="$FIRE_TYPE+P"
 fi
 
 ZIP_PATH="$KDIR/kernel_build/FireAsf/$DIR_DATE/FireAsf_$FIRE_VER-$FIRE_TYPE-$CODENAME-$DATE.zip"
@@ -282,6 +293,10 @@ build() {
     if [[ "$DO_FLTO" == "1" ]]; then
         scripts/config --file "$KDIR/out/.config" --enable CONFIG_LTO_CLANG_FULL
         scripts/config --file "$KDIR/out/.config" --disable CONFIG_LTO_CLANG_THIN
+    fi
+
+    if [[ "$DO_PERMISSIVE" == "1" ]]; then
+        scripts/config --file "$KDIR/out/.config" --enable CONFIG_SECURITY_SELINUX_ALWAYS_PERMISSIVE
     fi
 
     echo -e "\nINFO: Starting compilation...\n"
