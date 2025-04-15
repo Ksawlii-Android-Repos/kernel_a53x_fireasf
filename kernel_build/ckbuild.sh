@@ -182,7 +182,7 @@ fi
 
 if [ "$DO_PERMISSIVE" = "1" ]; then
     FIRE_TYPE="$FIRE_TYPE+Permissive"
-    FIRE_TYPE_SHORT="$FIRE_TYPE+P"
+    FIRE_TYPE_SHORT="$FIRE_TYPE_SHORT+P"
 fi
 
 ZIP_PATH="$KDIR/kernel_build/FireAsf/$DIR_DATE/FireAsf_$FIRE_VER-$FIRE_TYPE-$CODENAME-$DATE.zip"
