@@ -21,7 +21,8 @@
 #include <linux/device.h>
 #include <linux/fs.h>
 #include <linux/err.h>
-#include "switch.h"
+#include <linux/switch.h>
+#include <linux/version.h>
 
 struct class *switch_class;
 static atomic_t device_count;
@@ -91,7 +92,7 @@ void switch_set_state(struct switch_dev *sdev, int state)
 			kobject_uevent_env(&sdev->dev->kobj, KOBJ_CHANGE, envp);
 			free_page((unsigned long)prop_buf);
 		} else {
-			printk(KERN_ERR "out of memory in switch_set_state\n");
+			pr_err("out of memory in %s\n", __func__);
 			kobject_uevent(&sdev->dev->kobj, KOBJ_CHANGE);
 		}
 	}
@@ -101,7 +102,12 @@ EXPORT_SYMBOL_GPL(switch_set_state);
 static int create_switch_class(void)
 {
 	if (!switch_class) {
+#if LINUX_VERSION_CODE < KERNEL_VERSION(6, 4, 0)
 		switch_class = class_create(THIS_MODULE, "switch");
+#else
+		switch_class = class_create("switch");
+#endif
+
 		if (IS_ERR(switch_class))
 			return PTR_ERR(switch_class);
 		atomic_set(&device_count, 0);
@@ -122,7 +128,7 @@ int switch_dev_register(struct switch_dev *sdev)
 
 	sdev->index = atomic_inc_return(&device_count);
 	sdev->dev = device_create(switch_class, NULL,
-		MKDEV(0, sdev->index), NULL, sdev->name);
+		MKDEV(0, sdev->index), NULL, "%s", sdev->name);
 	if (IS_ERR(sdev->dev))
 		return PTR_ERR(sdev->dev);
 
