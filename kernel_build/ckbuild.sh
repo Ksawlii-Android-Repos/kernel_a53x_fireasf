@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Build script for TwinkFr Kernel (Galaxy A53).
+# Build script for FireAsf (Galaxy A53).
 # Based on build script for Quicksilver, by Ghostrider.
 # Copyright (C) 2020-2021 Adithya R. (original version)
 # Copyright (C) 2022-2025 Flopster101 (rewrite)
@@ -9,7 +9,7 @@
 ## Variables
 # Other
 DEFAULT_DEFCONFIG="a53x_defconfig"
-KERNEL_URL="https://github.com/Ksawlii-Android-Repos/kernel_a53x_twfr"
+KERNEL_URL="https://github.com/Ksawlii-Android-Repos/kernel_a53x_fireasf"
 AK3_URL="https://github.com/Ksawlii-Android-Repos/AnyKernel3-a53x"
 AK3_TEST=0
 SECONDS=0
@@ -72,7 +72,7 @@ MKDTBOIMG="$(pwd)/kernel_build/dtb/mkdtboimg.py"
 
 ## Customizable vars
 # Kernel verison
-TW_VER="1.0"
+FIRE_VER="6.0"
 
 # Toggles
 USE_CCACHE=1
@@ -162,25 +162,25 @@ fi
 LINUX_VER=$(make kernelversion 2>/dev/null)
 
 if [[ "$DO_KSU" == "1" ]]; then
-    TW_TYPE="KSUNext"
-    TW_TYPE_SHORT="KN"
+    FIRE_TYPE="KSUNext"
+    FIRE_TYPE_SHORT="KN"
 else
-    TW_TYPE="Vanilla"
-    TW_TYPE_SHORT="V"
+    FIRE_TYPE="Vanilla"
+    FIRE_TYPE_SHORT="V"
 fi
 
 if [[ "$DO_OC" == "1" ]]; then
-    TW_TYPE="$TW_TYPE+Unlocked"
-    TW_TYPE_SHORT="$TW_TYPE_SHORT+U"
+    FIRE_TYPE="$FIRE_TYPE+Unlocked"
+    FIRE_TYPE_SHORT="$FIRE_TYPE_SHORT+U"
 fi
 
-ZIP_PATH="$KDIR/kernel_build/TwinkFr/$DIR_DATE/TwinkFr_$TW_VER-$TW_TYPE-$CODENAME-$DATE.zip"
-TAR_PATH="$KDIR/kernel_build/TwinkFr/$DIR_DATE/TwinkFr_$TW_VER-$TW_TYPE-$CODENAME-$DATE.tar"
+ZIP_PATH="$KDIR/kernel_build/FireAsf/$DIR_DATE/FireAsf_$FIRE_VER-$FIRE_TYPE-$CODENAME-$DATE.zip"
+TAR_PATH="$KDIR/kernel_build/FireAsf/$DIR_DATE/FireAsf_$FIRE_VER-$FIRE_TYPE-$CODENAME-$DATE.tar"
 
 echo -e "\nINFO: Build info:
 - Device: $DEVICE ($CODENAME)
-- Addons: $TW_TYPE
-- TwinkFr version: $TW_VER
+- Addons: $FIRE_TYPE
+- FireAsf version: $FIRE_VER
 - Linux version: $LINUX_VER
 - Defconfig: $DEFCONFIG
 - Build date: $DATE
@@ -227,7 +227,7 @@ build() {
 
     make -j"$JOBS" O=out CC="clang" CROSS_COMPILE="$CCARM64_PREFIX" "$DEFCONFIG" $([[ "$arg" == *q* ]] && echo '> /dev/null 2>&1' || echo '2>&1 | tee log.txt')
 
-    VERSION_STR="\"-TwinkFr-$TW_VER-$TW_TYPE_SHORT\""
+    VERSION_STR="\"-FireAsf-$FIRE_VER-$FIRE_TYPE_SHORT\""
 
     rm -f "$OUT_KERNEL"
 
