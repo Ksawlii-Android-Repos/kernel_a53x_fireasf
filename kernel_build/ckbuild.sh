@@ -168,7 +168,7 @@ fi
 LINUX_VER=$(make kernelversion 2>/dev/null)
 
 if [[ "$DO_KSU" == "1" ]]; then
-    FIRE_TYPE="KSUNext"
+    FIRE_TYPE="KSUN"
     FIRE_TYPE_SHORT="KN"
 else
     FIRE_TYPE="Vanilla"
