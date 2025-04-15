@@ -167,13 +167,11 @@ kernel_build/*.br
 # Build Dirs
 kernel_build/tmp/*
 kernel_build/FireAsf/*
+modules_load
+*__pycache__*
 
 # KernelSU-Next
 KernelSU-Next
-
-
-# AnyKernel3
-kernel_build/fire_zip/
 
 # Deps
 kernel_build/.deps
