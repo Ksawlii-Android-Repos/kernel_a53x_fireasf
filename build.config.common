@@ -1,4 +1,4 @@
-BRANCH=android12-5.10
+BRANCH=android12-5.10-lts
 KMI_GENERATION=9
 
 LLVM=1
